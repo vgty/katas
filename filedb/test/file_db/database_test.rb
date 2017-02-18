@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'json'
 
 class FileDb::DatabaseTest < Minitest::Test
   def setup
@@ -9,7 +10,8 @@ class FileDb::DatabaseTest < Minitest::Test
     assert_kind_of(Array, @db.table_names)
   end
 
-  def test_table_names_returns_table_name
-    assert_equal(['directors', 'movies'], @db.table_names)
+  def test_table_returns_table_name
+    assert_equal(["movies", "directors"], @db.table_names)
   end
+  
 end

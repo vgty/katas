@@ -1,7 +1,9 @@
 desc "Open an irb session preloaded with this library"
 task :console do
   require 'irb'
+  require 'json'
   require_relative 'lib/file_db.rb'
+  @db = FileDb::Database.new('fixtures/data.json')
   ARGV.clear
   IRB.start
 end
