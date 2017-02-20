@@ -7,45 +7,48 @@ module FileDb
       @data = data
     end
     
-    def id_generator(movie)
+    def id_generator(element)
       data_length = data[category].length
-      movie.merge!(id: "#{data_length}".to_i + 1)
+      element.merge!(id: "#{data_length}".to_i + 1)
     end
     
-    def select(arg="")
-      if arg.is_a? String
+    def select(req="")
+      if req.is_a? String
         data[category]  
-      elsif arg.has_key?(:where)
-         searching = arg[:where].keys
+      elsif req.has_key?(:where)
+         searching = req[:where].keys
         if searching.include?(:id)
-          movie_index = (arg[:where][:id]) - 1
-          data[category][movie_index]               
+          element_index = (req[:where][:id]) - 1
+          data[category][element_index]               
         else 
-          key_name = arg[:where].keys[0]
-          key_value = arg[:where][key_name]
+          key_name = req[:where].keys[0]
+          key_value = req[:where][key_name]
           arr =[]
-          data[category].each do |movie|
-            arr << movie if movie["#{key_name}"] == key_value
+          data[category].each do |elem|
+            arr << elem if elem["#{key_name}"] == key_value
           end
           arr
         end        
       end
     end
     
-    def insert(new_movie)
-      id_generator(new_movie)
-      data[category] << new_movie
-      new_movie
+    def insert(element)
+      id_generator(element)
+      data[category] << element
+      element
     end
     
-    def update(arg)
-      movie = select(arg)
-      key_name = arg[:values].keys[0]
-      key_value = arg[:values][key_name]
-      movie["#{key_name}"] = key_value
-      movie      
-      
-      
+    def update(req)
+      element = select(req)
+      key_name = req[:values].keys[0]
+      key_value = req[:values][key_name]
+      element["#{key_name}"] = key_value
+      element
+    end
+    
+    def delete(req)
+      element = select(req)
+      data[category] - [element]
     end
     
   end

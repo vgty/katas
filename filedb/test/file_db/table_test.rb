@@ -52,13 +52,23 @@ class FileDb::TableTest < Minitest::Test
     new_movie = { title: "Birds", year: 1962, director_id: 2 }.merge!(id: "#{data_length}".to_i + 1)
     new_list << new_movie
     assert_equal(new_list.last, movies.insert({ title: "Birds", year: 1962, director_id: 2 }))
-    
   end
   
+  def test_table_returns_movie_updated
+    assert_equal({"id"=>6, "title"=>"Psycho", "year"=>1960, "director_id"=>4}, movies.update(where: { id: 6 }, values: { director_id: 4 }))
+  end
+  
+  #once db is persistent
   def test_table_returns_movies_with_movie_updated
+    skip
     assert_equal({"id"=>6, "title"=>"Psycho", "year"=>1963, "director_id"=>2}, movies.update(where: { id: 6 }, values: { year: 1963 }))
   end
-end
+  
+  def test_table_returns_movies_without_movie_selected
+    new_list = db.data["movies"].dup
+    new_list.pop
+    assert_equal(new_list, movies.delete(where: { id: 6 }))
+  end
 
 
 
