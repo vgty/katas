@@ -51,11 +51,26 @@ class FileDb::TableTest < Minitest::Test
     data_length = db.data["movies"].length
     new_movie = { title: "Birds", year: 1962, director_id: 2 }.merge!(id: "#{data_length}".to_i + 1)
     new_list << new_movie
-    assert_equal(new_list, movies.insert({ title: "Birds", year: 1962, director_id: 2 }))
+    assert_equal(new_list.last, movies.insert({ title: "Birds", year: 1962, director_id: 2 }))
+    
   end
   
-  # def test_table_returns_movies_with_movie_updated
-  #   db.data["movies"][7]
-  #   assert_equal(, movies.update(where: { id: 7 }, values: { year: 1963 }))
-  # end
+  def test_table_returns_movies_with_movie_updated
+    assert_equal({"id"=>6, "title"=>"Psycho", "year"=>1963, "director_id"=>2}, movies.update(where: { id: 6 }, values: { year: 1963 }))
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

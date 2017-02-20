@@ -4,6 +4,8 @@ task :console do
   require 'json'
   require_relative 'lib/file_db.rb'
   @db = FileDb::Database.new('fixtures/data.json')
+  @movies = @db.table #par défaut "movies" en argument
+  @directors = @db.table("directors")
   ARGV.clear
   IRB.start
 end
